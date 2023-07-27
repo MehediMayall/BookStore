@@ -45,11 +45,30 @@ public class BookContext : DbContext
 
         // Book Author
         modelBuilder.Entity<BookAuthor>().HasKey(e=> new { e.BookID, e.AuthorID});
+        modelBuilder.Entity<BookAuthor>().Property(e=> e.IsActive).HasDefaultValue(true);
+        modelBuilder.Entity<BookAuthor>().Property(e=> e.CreatedOn).HasDefaultValueSql("GETDATE()");
+        
 
         // Tag
         modelBuilder.Entity<Tag>().HasKey(e=> e.Id);
+        modelBuilder.Entity<Tag>().Property(e=> e.Name).HasMaxLength(50).IsRequired();
+        modelBuilder.Entity<Tag>().Property(e=> e.IsActive).HasDefaultValue(true);
+        modelBuilder.Entity<Tag>().Property(e=> e.CreatedOn).HasDefaultValueSql("GETDATE()");
+        modelBuilder.Entity<Tag>().HasOne(e=> e.user).WithMany(e=> e.Tags).HasForeignKey(e=> e.CreatedByID).IsRequired();
+
 
         // Book Tags
         modelBuilder.Entity<BookTags>().HasKey(e=> new {e.BookID, e.TagID});
+        modelBuilder.Entity<BookTags>().Property(e=> e.IsActive).HasDefaultValue(true);
+        modelBuilder.Entity<BookTags>().Property(e=> e.CreatedOn).HasDefaultValueSql("GETDATE()");
+
+        // Review
+        modelBuilder.Entity<Review>().HasKey(e=> e.Id);
+        modelBuilder.Entity<Review>().Property(e=> e.Comment).HasMaxLength(500).IsRequired();
+        modelBuilder.Entity<Review>().Property(e=> e.ReviewerName).HasMaxLength(50).IsRequired();
+        modelBuilder.Entity<Review>().Property(e=> e.IsActive).HasDefaultValue(true);
+        modelBuilder.Entity<Review>().Property(e=> e.CreatedOn).HasDefaultValueSql("GETDATE()");
+
+
     }
 }
