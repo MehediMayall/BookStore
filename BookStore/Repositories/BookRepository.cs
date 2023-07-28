@@ -41,8 +41,13 @@ public class BookRepository : IBookRepository
                 b=> new BookDto{
                     BookID = b.Id,
                     Title = b.Title,
-                    Price = b.Price,
+                    PublishedOn = b.PublishedOn,
+                    ActualPrice = b.Price,
+                    Price = b.Promotion == null ? b.Price : b.Promotion.NewPrice,
+                    PromotionalText = b.Promotion == null ? "" : b.Promotion.PromotionalText,
                     Authors = string.Join(", ", b.BookAuthors.OrderBy(a=> a.OrderNo).Select(ba=> ba.Author.Firstname + " " + ba.Author.Lastname)),
+                    AverageStar = b.Reviews.Select(r=> r.NumberOfStars).Average(),
+                    Tags = b.BookTags.Select(t=> t.Tag.Name).ToArray(),
                     NumberOfReviews = b.Reviews.Count,
                 }
             ).ToListAsync();

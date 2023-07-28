@@ -37,6 +37,7 @@ public class BookController: BaseController
     {
         try
         {
+            // throw new Exception("An error occured here");
             return GetResponse(await this.service.getBookList());
         }
         catch (Exception ex) { return GetResponse(ex);}
