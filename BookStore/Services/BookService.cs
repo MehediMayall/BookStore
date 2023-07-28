@@ -20,8 +20,13 @@ public class BookService : IBookService
         return await this.repo.GetBook(BookID);
     }
 
-    public async Task<List<Book>> getBookList()
+    public async Task<List<Book>> getBooks()
     {
         return await repo.GetBooks();
+    }
+
+    public async Task<List<BookDto>> getBookList()
+    {
+        return await repo.GetBookList();
     }
 }

@@ -31,4 +31,19 @@ public class BookRepository : IBookRepository
         this.dbContext.Entry(book).Collection(e=> e.Reviews ).Load();        
         return book;
     }    
+
+    public async Task<List<BookDto>> GetBookList()
+    {
+        List<BookDto> books = await dbContext.Books
+            .Select(
+                b=> new BookDto{
+                    BookID = b.Id,
+                    Title = b.Title,
+                    Price = b.Price,
+                    NumberOfReviews = b.Reviews.Count,
+                }
+            ).ToListAsync();
+
+        return books;
+    }
 }
