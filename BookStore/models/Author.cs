@@ -7,5 +7,5 @@ public class Author : BaseModel
     public string Lastname { get; set; } = string.Empty;
     public string? Email { get; set; }
     public string? Mobile { get; set; }
-    
+    public string? Website { get; set; }
 }

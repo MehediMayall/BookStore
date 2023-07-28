@@ -46,6 +46,7 @@ public class BookContext : DbContext
         modelBuilder.Entity<Author>().Property(e=> e.Mobile).HasMaxLength(100);
         modelBuilder.Entity<Author>().Property(e=> e.IsActive).HasDefaultValue(true);
         modelBuilder.Entity<Author>().Property(e=> e.CreatedOn).HasDefaultValueSql("GETDATE()");
+        modelBuilder.Entity<Author>().Property(e=> e.Website).HasMaxLength(100);
 
 
         // Book Author
