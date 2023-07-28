@@ -32,6 +32,8 @@ public class BookRepository : IBookRepository
         return book;
     }    
 
+
+    // Select loading. Client-Server query execution in Authors property
     public async Task<List<BookDto>> GetBookList()
     {
         List<BookDto> books = await dbContext.Books
@@ -40,6 +42,7 @@ public class BookRepository : IBookRepository
                     BookID = b.Id,
                     Title = b.Title,
                     Price = b.Price,
+                    Authors = string.Join(", ", b.BookAuthors.OrderBy(a=> a.OrderNo).Select(ba=> ba.Author.Firstname + " " + ba.Author.Lastname)),
                     NumberOfReviews = b.Reviews.Count,
                 }
             ).ToListAsync();
