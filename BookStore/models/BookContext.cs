@@ -4,14 +4,19 @@ using Microsoft.EntityFrameworkCore.SqlServer;
 
 public class BookContext : DbContext
 {
-    
-    private readonly string ConnectionString = "Server=.;Database=bookstore;User=sa;Password=e0LZ0G*#%B9)G9}P95;Trusted_Connection=false;TrustServerCertificate=true;";
+    // private readonly string ConnectionString = "Server=.;Database=bookstore;User=sa;Password=e0LZ0G*#%B9)G9}P95;Trusted_Connection=false;TrustServerCertificate=true;";
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    public BookContext(DbContextOptions<BookContext> options): base(options)
     {
-        optionsBuilder.UseSqlServer(ConnectionString);
-        base.OnConfiguring(optionsBuilder);
     }
+
+
+    // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    // {
+    //     var ConnectionString = this.config.GetConnectionString("Default");
+    //     optionsBuilder.UseSqlServer(ConnectionString);
+    //     base.OnConfiguring(optionsBuilder);
+    // }
 
     // Models
     public DbSet<Book> Books { get; set; }
