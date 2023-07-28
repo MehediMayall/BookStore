@@ -22,6 +22,7 @@ public class BookContext : DbContext
     public DbSet<Book> Books { get; set; }
     public DbSet<Author> Authors{ get; set; }
     public DbSet<Tag> Tags { get; set; }
+    public DbSet<User> Users { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -75,6 +76,15 @@ public class BookContext : DbContext
         modelBuilder.Entity<Review>().Property(e=> e.IsActive).HasDefaultValue(true);
         modelBuilder.Entity<Review>().Property(e=> e.CreatedOn).HasDefaultValueSql("GETDATE()");
 
+
+        // Users
+        modelBuilder.Entity<User>().HasKey(e=> e.Id);
+        modelBuilder.Entity<User>().Property(e=> e.Firstname).HasMaxLength(50).IsRequired();
+        modelBuilder.Entity<User>().Property(e=> e.Lastname).HasMaxLength(50).IsRequired();
+        modelBuilder.Entity<User>().Property(e=> e.Email).HasMaxLength(100).IsRequired();
+        modelBuilder.Entity<User>().Property(e=> e.CreatedByID).IsRequired();
+        modelBuilder.Entity<User>().Property(e=> e.IsActive).HasDefaultValue(true);
+        modelBuilder.Entity<User>().Property(e=> e.CreatedOn).HasDefaultValueSql("GETDATE()");
 
     }
 }
