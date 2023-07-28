@@ -16,7 +16,7 @@ public class Book : BaseModel
     public PriceOffer Promotion { get; set; }
     public ICollection<BookAuthor> BookAuthors { get; set; }
     public ICollection<Review> Reviews { get; set; }
-    public ICollection<BookTags> Tags { get; set; }
+    public ICollection<BookTags> BookTags { get; set; }
 
 
 

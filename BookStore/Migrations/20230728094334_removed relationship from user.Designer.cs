@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using bookstore.models;
 
@@ -11,9 +12,11 @@ using bookstore.models;
 namespace bookstore.Migrations
 {
     [DbContext(typeof(BookContext))]
-    partial class BookContextModelSnapshot : ModelSnapshot
+    [Migration("20230728094334_removed relationship from user")]
+    partial class removedrelationshipfromuser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -133,9 +136,12 @@ namespace bookstore.Migrations
                     b.Property<DateTime?>("UpdatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatedByID");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Books");
                 });
@@ -384,8 +390,8 @@ namespace bookstore.Migrations
             modelBuilder.Entity("bookstore.models.Book", b =>
                 {
                     b.HasOne("bookstore.models.User", "User")
-                        .WithMany("Books")
-                        .HasForeignKey("CreatedByID")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -438,11 +444,6 @@ namespace bookstore.Migrations
                         .IsRequired();
 
                     b.Navigation("Reviews");
-                });
-
-            modelBuilder.Entity("bookstore.models.User", b =>
-                {
-                    b.Navigation("Books");
                 });
 #pragma warning restore 612, 618
         }

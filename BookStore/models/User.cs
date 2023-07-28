@@ -7,6 +7,6 @@ public class User : BaseModel
     public string Lastname { get; set; } = "";
     public string Email { get; set; } = "";
 
-    public ICollection<Tag> Tags { get; set; }
-    public ICollection<Book> Books { get; set; }
+    public virtual ICollection<Book> Books { get; set; }
+
 }
