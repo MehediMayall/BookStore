@@ -8,4 +8,5 @@ public class User : BaseModel
     public string Email { get; set; } = "";
 
     public ICollection<Tag> Tags { get; set; }
+    public ICollection<Book> Books { get; set; }
 }

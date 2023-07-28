@@ -29,6 +29,7 @@ public class BookContext : DbContext
     {
         // Book
         modelBuilder.Entity<Book>().HasKey(e=> e.Id);
+        modelBuilder.Entity<Book>().HasOne(e=> e.User).WithMany(e=> e.Books).HasForeignKey(e=> e.CreatedByID).IsRequired();
         modelBuilder.Entity<Book>().Property(e=> e.Title).HasMaxLength(150).IsRequired();
         modelBuilder.Entity<Book>().Property(e=> e.Description).HasMaxLength(250);
         modelBuilder.Entity<Book>().Property(e=> e.PublishedOn).IsRequired();
@@ -79,6 +80,8 @@ public class BookContext : DbContext
 
         // Users
         modelBuilder.Entity<User>().HasKey(e=> e.Id);
+        // modelBuilder.Entity<User>().HasMany(e=> e.Books).HasForeignKey(e=>e.CreatedByID).IsRequired();
+
         modelBuilder.Entity<User>().Property(e=> e.Firstname).HasMaxLength(50).IsRequired();
         modelBuilder.Entity<User>().Property(e=> e.Lastname).HasMaxLength(50).IsRequired();
         modelBuilder.Entity<User>().Property(e=> e.Email).HasMaxLength(100).IsRequired();
