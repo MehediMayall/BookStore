@@ -22,12 +22,17 @@ public class BookContext : DbContext
     public DbSet<Book> Books { get; set; }
     public DbSet<Author> Authors{ get; set; }
     public DbSet<Tag> Tags { get; set; }
+    public DbSet<BookTags> BookTags { get; set; }
+    public DbSet<User> Users { get; set; }
+
+
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // Book
         modelBuilder.Entity<Book>().HasKey(e=> e.Id);
+        modelBuilder.Entity<Book>().HasOne(e=> e.User).WithMany(e=> e.Books).HasForeignKey(e=> e.CreatedByID).IsRequired();
         modelBuilder.Entity<Book>().Property(e=> e.Title).HasMaxLength(150).IsRequired();
         modelBuilder.Entity<Book>().Property(e=> e.Description).HasMaxLength(250);
         modelBuilder.Entity<Book>().Property(e=> e.PublishedOn).IsRequired();
@@ -57,10 +62,11 @@ public class BookContext : DbContext
 
         // Tag
         modelBuilder.Entity<Tag>().HasKey(e=> e.Id);
+        // modelBuilder.Entity<Tag>().HasOne(e=>e.User).
         modelBuilder.Entity<Tag>().Property(e=> e.Name).HasMaxLength(50).IsRequired();
         modelBuilder.Entity<Tag>().Property(e=> e.IsActive).HasDefaultValue(true);
         modelBuilder.Entity<Tag>().Property(e=> e.CreatedOn).HasDefaultValueSql("GETDATE()");
-        modelBuilder.Entity<Tag>().HasOne(e=> e.user).WithMany(e=> e.Tags).HasForeignKey(e=> e.CreatedByID).IsRequired();
+        // modelBuilder.Entity<Tag>().HasOne(e=> e.user).WithMany(e=> e.Tags).HasForeignKey(e=> e.CreatedByID).IsRequired();
 
 
         // Book Tags
@@ -75,6 +81,16 @@ public class BookContext : DbContext
         modelBuilder.Entity<Review>().Property(e=> e.IsActive).HasDefaultValue(true);
         modelBuilder.Entity<Review>().Property(e=> e.CreatedOn).HasDefaultValueSql("GETDATE()");
 
+
+        // Users
+        modelBuilder.Entity<User>().HasKey(e=> e.Id);
+
+        modelBuilder.Entity<User>().Property(e=> e.Firstname).HasMaxLength(50).IsRequired();
+        modelBuilder.Entity<User>().Property(e=> e.Lastname).HasMaxLength(50).IsRequired();
+        modelBuilder.Entity<User>().Property(e=> e.Email).HasMaxLength(100).IsRequired();
+        modelBuilder.Entity<User>().Property(e=> e.CreatedByID).IsRequired();
+        modelBuilder.Entity<User>().Property(e=> e.IsActive).HasDefaultValue(true);
+        modelBuilder.Entity<User>().Property(e=> e.CreatedOn).HasDefaultValueSql("GETDATE()");
 
     }
 }

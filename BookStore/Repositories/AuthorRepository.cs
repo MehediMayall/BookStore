@@ -12,6 +12,6 @@ public class AuthorRepository : IAuthorRepository
 
     public async Task<List<Author>> GetAuthors()
     {
-        return await this.dbContext.Authors.ToListAsync();
+        return await this.dbContext.Authors.AsNoTracking().ToListAsync();
     }
 }

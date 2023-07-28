@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using bookstore.models;
 
@@ -11,9 +12,11 @@ using bookstore.models;
 namespace bookstore.Migrations
 {
     [DbContext(typeof(BookContext))]
-    partial class BookContextModelSnapshot : ModelSnapshot
+    [Migration("20230728061711_User table updated")]
+    partial class Usertableupdated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -134,8 +137,6 @@ namespace bookstore.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CreatedByID");
 
                     b.ToTable("Books");
                 });
@@ -331,6 +332,8 @@ namespace bookstore.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CreatedByID");
+
                     b.ToTable("Tags");
                 });
 
@@ -381,17 +384,6 @@ namespace bookstore.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("bookstore.models.Book", b =>
-                {
-                    b.HasOne("bookstore.models.User", "User")
-                        .WithMany("Books")
-                        .HasForeignKey("CreatedByID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("bookstore.models.BookAuthor", b =>
                 {
                     b.HasOne("bookstore.models.Book", null)
@@ -404,7 +396,7 @@ namespace bookstore.Migrations
             modelBuilder.Entity("bookstore.models.BookTags", b =>
                 {
                     b.HasOne("bookstore.models.Book", null)
-                        .WithMany("BookTags")
+                        .WithMany("Tags")
                         .HasForeignKey("BookID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -428,21 +420,32 @@ namespace bookstore.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("bookstore.models.Tag", b =>
+                {
+                    b.HasOne("bookstore.models.User", "user")
+                        .WithMany("Tags")
+                        .HasForeignKey("CreatedByID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("user");
+                });
+
             modelBuilder.Entity("bookstore.models.Book", b =>
                 {
                     b.Navigation("BookAuthors");
-
-                    b.Navigation("BookTags");
 
                     b.Navigation("Promotion")
                         .IsRequired();
 
                     b.Navigation("Reviews");
+
+                    b.Navigation("Tags");
                 });
 
             modelBuilder.Entity("bookstore.models.User", b =>
                 {
-                    b.Navigation("Books");
+                    b.Navigation("Tags");
                 });
 #pragma warning restore 612, 618
         }

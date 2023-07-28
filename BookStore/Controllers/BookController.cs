@@ -22,6 +22,17 @@ public class BookController: BaseController
 
     [HttpGet]
     [Route("/api/book/list")]
+    public async Task<ActionResult<ResponseDto>> getBooks()
+    {
+        try
+        {
+            return GetResponse(await this.service.getBookList());
+        }
+        catch (Exception ex) { return GetResponse(ex);}
+    }
+    
+    [HttpGet]
+    [Route("/api/book/list/2")]
     public async Task<ActionResult<ResponseDto>> getBookList()
     {
         try
@@ -30,6 +41,20 @@ public class BookController: BaseController
         }
         catch (Exception ex) { return GetResponse(ex);}
     }
+
+
+    [HttpGet]
+    [Route("/api/book/detail/{id}")]
+    public async Task<ActionResult<ResponseDto>> getBook(int id)
+    {
+        try
+        {
+            return GetResponse(await this.service.getBook(id));
+        }
+        catch(Exception ex) { return GetResponse(ex);}
+
+    }
+
 
 
 }
