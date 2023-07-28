@@ -32,4 +32,18 @@ public class BookController: BaseController
     }
 
 
+    [HttpGet]
+    [Route("/api/book/detail/{id}")]
+    public async Task<ActionResult<ResponseDto>> getBook(int id)
+    {
+        try
+        {
+            return GetResponse(await this.service.getBook(id));
+        }
+        catch(Exception ex) { return GetResponse(ex);}
+
+    }
+
+
+
 }
