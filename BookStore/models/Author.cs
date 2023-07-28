@@ -1,12 +1,11 @@
-namespace BookStore.models;
+namespace bookstore.models;
 
-public class Author
+public class Author : BaseModel
 {
-    public int AuthorID { get; set; }
-    public string Name { get; set;}
-    public string Email { get; set;}
-
-    public string URL { get; set; }
-
-    public List<Book> Books { get; set; }
+    public int Id { get; set; }
+    public string Firstname { get; set;} = string.Empty;
+    public string Lastname { get; set; } = string.Empty;
+    public string? Email { get; set; }
+    public string? Mobile { get; set; }
+    public string? Website { get; set; }
 }
