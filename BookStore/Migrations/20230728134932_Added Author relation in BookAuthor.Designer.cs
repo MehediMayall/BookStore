@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using bookstore.models;
 
@@ -11,9 +12,11 @@ using bookstore.models;
 namespace bookstore.Migrations
 {
     [DbContext(typeof(BookContext))]
-    partial class BookContextModelSnapshot : ModelSnapshot
+    [Migration("20230728134932_Added Author relation in BookAuthor")]
+    partial class AddedAuthorrelationinBookAuthor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -174,7 +177,7 @@ namespace bookstore.Migrations
 
                     b.HasIndex("AuthorID");
 
-                    b.ToTable("BookAuthors");
+                    b.ToTable("BookAuthor");
                 });
 
             modelBuilder.Entity("bookstore.models.BookTags", b =>
@@ -198,9 +201,6 @@ namespace bookstore.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
 
-                    b.Property<int?>("TagId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("UpdatedByID")
                         .HasColumnType("int");
 
@@ -208,10 +208,6 @@ namespace bookstore.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("BookID", "TagID");
-
-                    b.HasIndex("TagID");
-
-                    b.HasIndex("TagId");
 
                     b.ToTable("BookTags");
                 });
@@ -231,22 +227,16 @@ namespace bookstore.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedOn")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
+                        .HasColumnType("bit");
 
                     b.Property<decimal>("NewPrice")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("PromotionalText")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("UpdatedByID")
                         .HasColumnType("int");
@@ -259,7 +249,7 @@ namespace bookstore.Migrations
                     b.HasIndex("BookId")
                         .IsUnique();
 
-                    b.ToTable("PriceOffers");
+                    b.ToTable("PriceOffer");
                 });
 
             modelBuilder.Entity("bookstore.models.Review", b =>
@@ -431,18 +421,6 @@ namespace bookstore.Migrations
                         .HasForeignKey("BookID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("bookstore.models.Tag", "Tag")
-                        .WithMany()
-                        .HasForeignKey("TagID")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("bookstore.models.Tag", null)
-                        .WithMany("BookTags")
-                        .HasForeignKey("TagId");
-
-                    b.Navigation("Tag");
                 });
 
             modelBuilder.Entity("bookstore.models.PriceOffer", b =>
@@ -473,11 +451,6 @@ namespace bookstore.Migrations
                         .IsRequired();
 
                     b.Navigation("Reviews");
-                });
-
-            modelBuilder.Entity("bookstore.models.Tag", b =>
-                {
-                    b.Navigation("BookTags");
                 });
 
             modelBuilder.Entity("bookstore.models.User", b =>

@@ -19,10 +19,12 @@ public class BookContext : DbContext
     // }
 
     // Models
-    public DbSet<Book> Books { get; set; }
     public DbSet<Author> Authors{ get; set; }
-    public DbSet<Tag> Tags { get; set; }
+    public DbSet<Book> Books { get; set; }
+    public DbSet<BookAuthor> BookAuthors { get; set; }
     public DbSet<BookTags> BookTags { get; set; }
+    public DbSet<Tag> Tags { get; set; }
+    public DbSet<PriceOffer> PriceOffers { get; set; }
     public DbSet<User> Users { get; set; }
 
 
@@ -62,7 +64,6 @@ public class BookContext : DbContext
 
         // Tag
         modelBuilder.Entity<Tag>().HasKey(e=> e.Id);
-        // modelBuilder.Entity<Tag>().HasOne(e=>e.User).
         modelBuilder.Entity<Tag>().Property(e=> e.Name).HasMaxLength(50).IsRequired();
         modelBuilder.Entity<Tag>().Property(e=> e.IsActive).HasDefaultValue(true);
         modelBuilder.Entity<Tag>().Property(e=> e.CreatedOn).HasDefaultValueSql("GETDATE()");
@@ -71,6 +72,7 @@ public class BookContext : DbContext
 
         // Book Tags
         modelBuilder.Entity<BookTags>().HasKey(e=> new {e.BookID, e.TagID});
+        modelBuilder.Entity<BookTags>().HasOne(e=> e.Tag).WithMany().HasForeignKey(e=> e.TagID).OnDelete(DeleteBehavior.NoAction);
         modelBuilder.Entity<BookTags>().Property(e=> e.IsActive).HasDefaultValue(true);
         modelBuilder.Entity<BookTags>().Property(e=> e.CreatedOn).HasDefaultValueSql("GETDATE()");
 
@@ -91,6 +93,14 @@ public class BookContext : DbContext
         modelBuilder.Entity<User>().Property(e=> e.CreatedByID).IsRequired();
         modelBuilder.Entity<User>().Property(e=> e.IsActive).HasDefaultValue(true);
         modelBuilder.Entity<User>().Property(e=> e.CreatedOn).HasDefaultValueSql("GETDATE()");
+
+
+        // Price Offer
+        modelBuilder.Entity<PriceOffer>().HasKey(e=> e.Id);
+        modelBuilder.Entity<PriceOffer>().Property(e=> e.PromotionalText).HasMaxLength(150).IsRequired();
+        modelBuilder.Entity<PriceOffer>().Property(e=> e.CreatedByID).IsRequired();
+        modelBuilder.Entity<PriceOffer>().Property(e=> e.IsActive).HasDefaultValue(true);
+        modelBuilder.Entity<PriceOffer>().Property(e=> e.CreatedOn).HasDefaultValueSql("GETDATE()");
 
     }
 }
