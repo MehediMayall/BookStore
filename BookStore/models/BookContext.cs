@@ -102,5 +102,8 @@ public class BookContext : DbContext
         modelBuilder.Entity<PriceOffer>().Property(e=> e.IsActive).HasDefaultValue(true);
         modelBuilder.Entity<PriceOffer>().Property(e=> e.CreatedOn).HasDefaultValueSql("GETDATE()");
 
+
+        // just for testing purposes
+
     }
 }
