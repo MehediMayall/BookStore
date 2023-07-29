@@ -1,7 +1,7 @@
 global using bookstore.Dtos;
 global using bookstore.models;
+global using bookstore.Services;
 using bookstore.Repositories;
-using bookstore.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,10 +22,29 @@ builder.Services.AddDbContext<BookContext>(options =>
 
 
 // Register Services
+// Book
 builder.Services.AddTransient<IBookService, BookService>();
 builder.Services.AddTransient<IBookRepository, BookRepository>();
+
+// Author
 builder.Services.AddTransient<IAuthorService, AuthorService>();
 builder.Services.AddTransient<IAuthorRepository, AuthorRepository>();
+
+// Review
+builder.Services.AddTransient<IReviewService, ReviewService>();
+// builder.Services.AddTransient<IAuthorRepository, AuthorRepository>();
+
+// Promotion
+builder.Services.AddTransient<IPromotionService, PromotionService>();
+// builder.Services.AddTransient<IAuthorRepository, AuthorRepository>();
+
+// Tag
+builder.Services.AddTransient<ITagService, TagService>();
+// builder.Services.AddTransient<IAuthorRepository, AuthorRepository>();
+
+// User
+builder.Services.AddTransient<IUserService, UserService>();
+// builder.Services.AddTransient<IAuthorRepository, AuthorRepository>();
 
 
 var app = builder.Build();
