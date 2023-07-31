@@ -23,7 +23,7 @@ public class BookContext : DbContext
     public DbSet<Book> Books { get; set; }
     public DbSet<BookAuthor> BookAuthors { get; set; }
     public DbSet<BookTags> BookTags { get; set; }
-    public DbSet<Tag> Tags { get; set; }
+    // public DbSet<Tag> Tags { get; set; }
     public DbSet<PriceOffer> PriceOffers { get; set; }
     public DbSet<User> Users { get; set; }
 

@@ -1,9 +1,18 @@
+using bookstore.Repositories;
+
 namespace bookstore.Services;
 
 public class TagService: ITagService
 {
-    public TagService()
+    private readonly IGenericRepository<Tag> repo;
+
+    public TagService(IGenericRepository<Tag> repo)
     {
-        
+        this.repo = repo;
+    }
+
+    public async Task<Tag> Save(Tag tag)
+    {
+        return await repo.Save(tag);
     }
 }
